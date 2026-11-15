@@ -1,0 +1,17 @@
+{
+  "name": "ABM SukiCard",
+  "short_name": "SukiCard",
+  "description": "Your ABM SukiCard loyalty card, always in your pocket.",
+  "id": "./",
+  "start_url": "./#websukicard",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a1a78",
+  "theme_color": "#0a1a78",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
