@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ABM SukiCard</title>
+<style>
+:root{--bg:#eef2f0;--panel:#fff;--ink:#16241f;--mute:#5d6d66;--line:#d6dfdb;--brand:#0e5a4f;--brand-ink:#fff;--warn:#f2b134;--bad:#b3261e;--r:10px}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1714;--panel:#18231f;--ink:#e6efeb;--mute:#93a49c;--line:#2a3a34;--brand:#3cc2a8;--brand-ink:#06201a;--bad:#ff8a80}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--warn);outline-offset:2px}
+.app{display:grid;grid-template-columns:210px 1fr;min-height:100vh}
+nav{background:var(--panel);border-right:1px solid var(--line);padding:20px 12px;position:sticky;top:0;height:100vh}
+nav h1{font-size:18px;margin:0 8px 20px}
+nav button{display:block;width:100%;text-align:left;border:0;background:none;padding:10px 12px;border-radius:var(--r);cursor:pointer;margin-bottom:4px}
+nav button[aria-current=true]{background:var(--brand);color:var(--brand-ink);font-weight:600}
+nav .out{margin-top:24px;color:var(--mute)}
+main{padding:24px;max-width:980px;width:100%}
+h2{margin:0 0 4px;font-size:24px}.sub{color:var(--mute);margin:0 0 18px}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.bar input[type=search]{flex:1;min-width:180px}
+input,select,textarea{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:9px 11px;width:100%}
+label{display:block;font-size:14px;color:var(--mute);margin:12px 0 4px}
+.btn{background:var(--brand);color:var(--brand-ink);border:0;border-radius:8px;padding:9px 16px;cursor:pointer;font-weight:600;white-space:nowrap}
+.btn.alt{background:none;color:var(--ink);border:1px solid var(--line)}
+.btn.del{background:none;color:var(--bad);border:1px solid var(--bad)}
+.chk{display:flex;align-items:center;gap:6px;color:var(--mute);white-space:nowrap}.chk input{width:auto}
+.list{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.row{display:grid;grid-template-columns:1.4fr 1fr .6fr 1fr;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);align-items:center;width:100%;text-align:left;background:none;border-left:0;border-right:0;border-top:0;cursor:pointer}
+.row:last-child{border-bottom:0}.row:hover{background:var(--bg)}
+.row b{overflow:hidden;text-overflow:ellipsis}.m{color:var(--mute);font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tag{background:var(--warn);color:#2b1d00;border-radius:99px;padding:2px 10px;font-size:13px;font-weight:600;justify-self:start}
+.item{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
+.item p{margin:2px 0 0;white-space:pre-wrap;word-break:break-word}
+.ads{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.ad{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.ad .pic{aspect-ratio:16/9;background:var(--bg);display:grid;place-items:center;color:var(--mute);font-size:14px}
+.ad img{width:100%;height:100%;object-fit:cover}
+.ad div.b{padding:10px 12px;display:flex;gap:8px;justify-content:space-between;align-items:center}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px;max-width:560px}
+.empty{padding:28px;text-align:center;color:var(--mute)}
+dialog{border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);width:min(480px,94vw);padding:20px}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.acts{display:flex;gap:10px;margin-top:18px;justify-content:flex-end}.acts .del{margin-right:auto}
+#login{display:grid;place-items:center;min-height:100vh;padding:20px}#login form{width:min(340px,100%)}
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9}
+#toast.on{opacity:1}
+@media(max-width:720px){
+ .app{display:block}
+ nav{position:sticky;top:0;height:auto;display:flex;gap:4px;padding:8px;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);z-index:5}
+ nav h1{display:none}nav button{width:auto;margin:0;white-space:nowrap}nav .out{margin:0}
+ main{padding:16px}.row{grid-template-columns:1fr auto}.row .m.x{display:none}
+}
+[hidden]{display:none!important}
+.site{min-height:100vh;display:flex;flex-direction:column}
+.site header{padding:18px 24px;font-weight:700;font-size:18px}
+.hero{max-width:720px;width:100%;margin:0 auto;padding:48px 24px 24px}
+.hero h1{font-size:clamp(32px,7vw,54px);line-height:1.1;margin:0 0 16px}
+.hero p{font-size:18px;color:var(--mute);max-width:52ch;margin:0 0 8px}
+.cta{display:inline-block;text-decoration:none;font-size:18px;padding:14px 26px;margin-top:20px}
+.back{display:inline-block;margin-bottom:20px;color:var(--mute)}
+ol.steps{list-style:none;counter-reset:s;max-width:720px;width:100%;margin:0 auto;padding:16px 24px 40px;display:grid;gap:12px}
+ol.steps li{counter-increment:s;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+ol.steps li::before{content:counter(s) ".";font-weight:700;color:var(--brand);margin-right:8px}
+.site footer{margin-top:auto;padding:20px 24px;color:var(--mute);font-size:14px}
+</style>
+</head>
+<body>
+<div class="site" id="site">
+ <header>ABM Retail Corp</header>
+ <section class="hero" id="home">
+  <h1>Your SukiCard, always in your pocket.</h1>
+  <p>Show your member card at the counter and keep up with offers and news from ABM Retail Corp, all in one app.</p>
+  <a class="btn cta" href="#downloadapk">Download for Android</a>
+ </section>
+ <ol class="steps" id="homesteps">
+  <li>Install the app and open it.</li>
+  <li>Type your name to create your card.</li>
+  <li>Show your barcode at the counter. It says Pending until the store links your card code.</li>
+ </ol>
+ <section class="hero" id="dl" hidden>
+  <a class="back" href="#">Back to home</a>
+  <h1>Download ABM SukiCard</h1>
+  <p id="apknote">Checking for the latest version…</p>
+  <a class="btn cta" id="apkbtn" href="#" hidden>Download the app (APK)</a>
+  <ol class="steps" style="padding:28px 0 0">
+   <li>Tap the download button and open the file when it finishes.</li>
+   <li>If Android asks, allow installs from your browser. This is a one-time switch.</li>
+   <li>Tap Install, then open ABM SukiCard.</li>
+  </ol>
+ </section>
+ <footer>&copy; ABM Retail Corp</footer>
+</div>
+
+<div id="adminRoot" hidden>
+<div id="login" hidden>
+ <form id="lf" class="card">
+  <h2>SukiCard Admin</h2><p class="sub">Enter your admin PIN.</p>
+  <label for="pin">Admin PIN</label>
+  <input id="pin" type="password" autocomplete="current-password" required>
+  <p id="lerr" class="m" style="color:var(--bad)"></p>
+  <div class="acts"><button class="btn">Sign in</button></div>
+ </form>
+</div>
+
+<div class="app" id="app" hidden>
+ <nav>
+  <h1>ABM SukiCard</h1>
+  <button data-v="members">Members</button>
+  <button data-v="news">Announcements</button>
+  <button data-v="ads">Ads</button>
+  <button data-v="update">App update</button>
+  <button class="out" id="out">Sign out</button>
+ </nav>
+ <main id="main"></main>
+</div>
+</div>
+
+<dialog id="dlg"></dialog>
+<div id="toast" role="status"></div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ERR={unauthorized:"Wrong PIN.",name_taken:"Another member already has that name.",bad_name:"Enter a name (up to 60 characters).",
+ bad_url:"The link must start with https://",too_many:"You already have 10 ads. Delete one first.",image_too_big:"That picture is too large.",
+ bad_image:"That picture couldn't be read.",empty_ad:"Add a picture or a link.",bad_message:"Write a message first.",bad_version:"Version code must be a number.",
+ proxy_failed:"Couldn't reach the server.",not_found:"That item no longer exists."};
+let pin=sessionStorage.getItem("pin")||"",view="members",M=[],filter="",pendingOnly=false;
+
+function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("on"),2600)}
+async function api(action,data={}){
+ let j;
+ try{const r=await fetch("/api/sukicard",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action,pin,...data})});j=await r.json()}
+ catch(e){throw new Error(ERR.proxy_failed)}
+ if(!j.ok){if(j.error==="unauthorized"&&action!=="login"){signOut()}throw new Error(ERR[j.error]||j.error||"Something went wrong.")}
+ return j}
+function signOut(){pin="";sessionStorage.removeItem("pin");$("#app").hidden=true;$("#login").hidden=false}
+function show(){ $("#login").hidden=true;$("#app").hidden=false;go(view)}
+
+$("#lf").onsubmit=async e=>{e.preventDefault();pin=$("#pin").value;$("#lerr").textContent="";
+ try{await api("list");sessionStorage.setItem("pin",pin);show()}catch(err){$("#lerr").textContent=err.message;pin=""}};
+$("#out").onclick=signOut;
+document.querySelectorAll("nav [data-v]").forEach(b=>b.onclick=()=>go(b.dataset.v));
+
+async function go(v){view=v;
+ document.querySelectorAll("nav [data-v]").forEach(b=>b.setAttribute("aria-current",b.dataset.v===v));
+ $("#main").innerHTML='<p class="m">Loading…</p>';
+ try{await({members,news,ads,update}[v]())}catch(e){$("#main").innerHTML=`<p class="empty">${esc(e.message)}</p>`}}
+
+/* ---------- Members ---------- */
+async function members(){
+ M=(await api("list")).members;drawMembers()}
+function drawMembers(){
+ const q=filter.toLowerCase(),rows=M.filter(m=>(!pendingOnly||!m.code)&&(!q||(m.name+m.code+m.note).toLowerCase().includes(q)));
+ const pend=M.filter(m=>!m.code).length;
+ $("#main").innerHTML=`<h2>Members</h2><p class="sub">${M.length} members, ${pend} waiting for a card code.</p>
+ <div class="bar"><input type="search" id="q" placeholder="Search name, code or note" value="${esc(filter)}" aria-label="Search members">
+ <label class="chk"><input type="checkbox" id="po" ${pendingOnly?"checked":""}> Pending only</label>
+ <button class="btn" id="add">Add member</button></div>
+ <div class="list">${rows.length?rows.map(m=>`<button class="row" data-id="${esc(m.id)}"><b>${esc(m.name)}</b>
+ <span class="m">${m.code?esc(m.code):""}${m.code?"":'<span class="tag">Pending</span>'}</span>
+ <span class="m">${esc(m.points)?esc(m.points)+" pts":""}</span><span class="m x">${esc(m.note)}</span></button>`).join(""):'<p class="empty">No members match.</p>'}</div>`;
+ $("#q").oninput=e=>{filter=e.target.value;const p=e.target.selectionStart;drawMembers();const n=$("#q");n.focus();n.setSelectionRange(p,p)};
+ $("#po").onchange=e=>{pendingOnly=e.target.checked;drawMembers()};
+ $("#add").onclick=()=>editMember({});
+ document.querySelectorAll(".row").forEach(r=>r.onclick=()=>editMember(M.find(m=>m.id===r.dataset.id)))}
+function editMember(m){
+ const d=$("#dlg"),isNew=!m.id,old=m.name||"";
+ d.innerHTML=`<form method="dialog" id="mf"><h2>${isNew?"Add member":"Edit member"}</h2>
+ <label for="n">Name</label><input id="n" required maxlength="60" value="${esc(m.name)}">
+ <div class="two"><div><label for="c">Card code</label><input id="c" value="${esc(m.code)}" inputmode="numeric"></div>
+ <div><label for="f">Format</label><select id="f"><option value="code128">Code 128</option><option value="ean13" ${m.format==="ean13"?"selected":""}>EAN-13</option></select></div></div>
+ <div class="two"><div><label for="p">Points</label><input id="p" value="${esc(m.points)}"></div>
+ <div><label for="s">Member since</label><input id="s" value="${esc(m.since)}"></div></div>
+ <label for="t">Note</label><input id="t" value="${esc(m.note)}">
+ <div class="acts">${isNew?"":'<button type="button" class="btn del" id="x">Delete</button>'}<button type="button" class="btn alt" id="cx">Cancel</button><button class="btn">Save member</button></div></form>`;
+ d.showModal();
+ $("#cx").onclick=()=>d.close();
+ if(!isNew)$("#x").onclick=async()=>{if(!confirm(`Delete ${old}? This can't be undone.`))return;
+  try{await api("delete",{name:old});d.close();toast("Member deleted");go("members")}catch(e){toast(e.message)}};
+ $("#mf").onsubmit=async e=>{e.preventDefault();
+  const member={id:m.id||"",name:$("#n").value,code:$("#c").value,format:$("#f").value,points:$("#p").value,since:$("#s").value,note:$("#t").value};
+  try{await api("save",{member,oldName:old});d.close();toast("Member saved");go("members")}catch(err){toast(err.message)}}}
+
+/* ---------- Announcements ---------- */
+async function news(){
+ const items=(await api("announcements")).items;
+ $("#main").innerHTML=`<h2>Announcements</h2><p class="sub">Shown on every customer's card and sent as a notification.</p>
+ <form class="card" id="nf" style="margin-bottom:18px"><label for="nt" style="margin-top:0">Title (optional)</label><input id="nt" maxlength="60">
+ <label for="nm">Message</label><textarea id="nm" rows="3" maxlength="240" required></textarea>
+ <div class="acts"><button class="btn">Send announcement</button></div></form>
+ ${items.length?items.map(a=>`<div class="item"><div><b>${esc(a.title)||"Announcement"}</b><div class="m">${new Date(a.at).toLocaleString()}</div><p>${esc(a.message)}</p></div>
+ <button class="btn del" data-id="${esc(a.id)}">Delete</button></div>`).join(""):'<p class="empty">No announcements yet.</p>'}`;
+ $("#nf").onsubmit=async e=>{e.preventDefault();try{await api("announce",{title:$("#nt").value,message:$("#nm").value});toast("Announcement sent");go("news")}catch(err){toast(err.message)}};
+ document.querySelectorAll(".item .del").forEach(b=>b.onclick=async()=>{if(!confirm("Delete this announcement?"))return;
+  try{await api("announcement_delete",{id:b.dataset.id});toast("Announcement deleted");go("news")}catch(err){toast(err.message)}})}
+
+/* ---------- Ads ---------- */
+async function ads(){
+ const items=(await api("ads")).items;
+ $("#main").innerHTML=`<h2>Ads</h2><p class="sub">Pictures that slide under the customer's card. Up to 10. Best size 960 × 540.</p>
+ <div class="bar"><button class="btn" id="aa" ${items.length>=10?"disabled":""}>Add ad</button></div>
+ ${items.length?`<div class="ads">${items.map(a=>`<div class="ad"><div class="pic" data-id="${esc(a.id)}">${a.hasImage?"Loading…":"No picture"}</div>
+ <div class="b"><span class="m">${esc(a.link)||"No link"}</span><button class="btn alt" data-id="${esc(a.id)}">Edit</button></div></div>`).join("")}</div>`:'<p class="empty">No ads yet.</p>'}`;
+ $("#aa").onclick=()=>editAd({});
+ items.forEach(a=>{const box=document.querySelector(`.pic[data-id="${CSS.escape(a.id)}"]`);
+  if(a.hasImage)api("adImage",{id:a.id}).then(r=>{if(r.image)box.innerHTML=`<img alt="Ad picture" src="data:image/jpeg;base64,${r.image}">`}).catch(()=>{box.textContent="Picture unavailable"})});
+ document.querySelectorAll(".ad .btn").forEach(b=>b.onclick=()=>editAd(items.find(a=>a.id===b.dataset.id)))}
+function editAd(a){
+ const d=$("#dlg"),isNew=!a.id;let img;
+ d.innerHTML=`<form method="dialog" id="af"><h2>${isNew?"Add ad":"Edit ad"}</h2>
+ <label for="ai">Picture (cropped to 16:9 automatically)</label><input id="ai" type="file" accept="image/*">
+ <p class="m" id="ah">${isNew?"":"Leave empty to keep the current picture."}</p>
+ <label for="al">Link (optional, must start with https://)</label><input id="al" value="${esc(a.link)}" placeholder="https://facebook.com/...">
+ <div class="acts">${isNew?"":'<button type="button" class="btn del" id="ax">Delete</button>'}<button type="button" class="btn alt" id="ac">Cancel</button><button class="btn">Save ad</button></div></form>`;
+ d.showModal();$("#ac").onclick=()=>d.close();
+ $("#ai").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{img=await toJpeg(f);$("#ah").textContent="Picture ready."}catch(_){$("#ah").textContent="That file isn't a picture.";img=undefined}};
+ if(!isNew)$("#ax").onclick=async()=>{if(!confirm("Delete this ad?"))return;try{await api("adDelete",{id:a.id});d.close();toast("Ad deleted");go("ads")}catch(e){toast(e.message)}};
+ $("#af").onsubmit=async e=>{e.preventDefault();
+  const data={id:a.id||"",title:a.title||"",message:a.message||"",link:$("#al").value};
+  if(img!==undefined)data.image=img;
+  try{await api("adSave",data);d.close();toast("Ad saved");go("ads")}catch(err){toast(err.message)}}}
+function toJpeg(file){return new Promise((ok,no)=>{const i=new Image();i.onload=()=>{
+ const c=document.createElement("canvas");c.width=960;c.height=540;const x=c.getContext("2d");
+ const r=Math.max(960/i.width,540/i.height),w=i.width*r,h=i.height*r;x.drawImage(i,(960-w)/2,(540-h)/2,w,h);
+ let q=.85,b;do{b=c.toDataURL("image/jpeg",q).split(",")[1];q-=.1}while(b.length>440000&&q>.2);ok(b)};i.onerror=no;i.src=URL.createObjectURL(file)})}
+
+/* ---------- App update ---------- */
+async function update(){
+ const u=await api("getUpdate");
+ $("#main").innerHTML=`<h2>App update</h2><p class="sub">Phones with a lower version code will offer the update.</p>
+ <form class="card" id="uf"><div class="two"><div><label for="uc" style="margin-top:0">Version code</label><input id="uc" inputmode="numeric" required value="${esc(u.versionCode)}"></div>
+ <div><label for="un" style="margin-top:0">Version name</label><input id="un" value="${esc(u.versionName)}"></div></div>
+ <label for="uu">APK download link (https, direct download)</label><input id="uu" value="${esc(u.url)}">
+ <label for="ut">What's new (optional)</label><input id="ut" maxlength="400" value="${esc(u.notes)}">
+ <div class="acts"><button class="btn">Publish update</button></div></form>`;
+ $("#uf").onsubmit=async e=>{e.preventDefault();
+  try{await api("setUpdate",{versionCode:$("#uc").value,versionName:$("#un").value,url:$("#uu").value,notes:$("#ut").value});toast("Update published")}catch(err){toast(err.message)}}}
+
+async function loadApk(){
+ const b=$("#apkbtn"),n=$("#apknote");
+ try{const u=await api("getUpdate");
+  if(u.url){b.href=u.url;b.hidden=false;n.textContent=`Version ${u.versionName||u.versionCode}.${u.notes?" What's new: "+u.notes:""}`}
+  else{b.hidden=true;n.textContent="The download isn't ready yet. Please check back soon."}
+ }catch(e){b.hidden=true;n.textContent="Couldn't load the download. Please try again."}}
+function route(){
+ const h=location.hash,adm=h==="#admin",d=h==="#downloadapk";
+ $("#adminRoot").hidden=!adm;$("#site").hidden=adm;
+ document.title=adm?"SukiCard Admin":"ABM SukiCard";
+ if(adm){
+  if(!pin){$("#app").hidden=true;$("#login").hidden=false}
+  else if($("#app").hidden)api("list").then(show).catch(()=>{$("#login").hidden=false});
+ }else{
+  $("#home").hidden=d;$("#homesteps").hidden=d;$("#dl").hidden=!d;
+  if(d)loadApk();
+  window.scrollTo(0,0);
+ }}
+addEventListener("hashchange",route);route();
+</script>
+</body>
+</html>
