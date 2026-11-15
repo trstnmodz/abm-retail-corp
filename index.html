@@ -4,9 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ABM SukiCard</title>
+<link rel="icon" type="image/png" href="abm_store_logo.png">
+<link rel="apple-touch-icon" href="abm_store_logo.png">
 <style>
-:root{--bg:#eef2f0;--panel:#fff;--ink:#16241f;--mute:#5d6d66;--line:#d6dfdb;--brand:#0e5a4f;--brand-ink:#fff;--warn:#f2b134;--bad:#b3261e;--r:10px}
-@media (prefers-color-scheme:dark){:root{--bg:#0f1714;--panel:#18231f;--ink:#e6efeb;--mute:#93a49c;--line:#2a3a34;--brand:#3cc2a8;--brand-ink:#06201a;--bad:#ff8a80}}
+:root{--bg:#eef2fb;--panel:#fff;--ink:#0d1636;--mute:#56608a;--line:#d3dbf0;--brand:#0a1a78;--brand-ink:#fff;--warn:#ffc928;--orange:#f58220;--bad:#b3261e;--r:10px}
+@media (prefers-color-scheme:dark){:root{--bg:#0a1230;--panel:#111b42;--ink:#e8edfb;--mute:#97a3cf;--line:#243060;--brand:#6f95ff;--brand-ink:#07103a;--bad:#ff8a80}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 button,input,select,textarea{font:inherit;color:inherit}
@@ -61,20 +63,60 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 .hero h1{font-size:clamp(32px,7vw,54px);line-height:1.1;margin:0 0 16px}
 .hero p{font-size:18px;color:var(--mute);max-width:52ch;margin:0 0 8px}
 .cta{display:inline-block;text-decoration:none;font-size:18px;padding:14px 26px;margin-top:20px}
+.alt{margin-top:18px!important;font-size:16px!important}.alt a{color:var(--brand);font-weight:600}
+.site header{display:flex;align-items:center;gap:12px}
+nav h1{display:flex;align-items:center;gap:8px}
+.hero .cta{background:var(--orange);color:#0a1a78}
 .back{display:inline-block;margin-bottom:20px;color:var(--mute)}
 ol.steps{list-style:none;counter-reset:s;max-width:720px;width:100%;margin:0 auto;padding:16px 24px 40px;display:grid;gap:12px}
 ol.steps li{counter-increment:s;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px}
 ol.steps li::before{content:counter(s) ".";font-weight:700;color:var(--brand);margin-right:8px}
 .site footer{margin-top:auto;padding:20px 24px;color:var(--mute);font-size:14px}
+
+#web{--bg:#f6f6f4;--tx:#111;--sub:#8a8a8a;--ln:#e4e4e0;--bt:#111;--btt:#fff;min-height:100vh;background:var(--bg);color:var(--tx);font-family:Roboto,system-ui,-apple-system,"Segoe UI",sans-serif}
+body.isweb{background:#f6f6f4}
+@media(prefers-color-scheme:dark){#web{--bg:#0e0e0f;--tx:#f2f2f2;--sub:#8c8c90;--ln:#2a2a2e;--bt:#f2f2f2;--btt:#111}body.isweb{background:#0e0e0f}}
+.wcol{max-width:480px;margin:0 auto;padding:16px 24px 32px}
+.wcol.c{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:32px}
+.wl{font-size:11px;font-weight:500;letter-spacing:.25em;text-transform:uppercase;color:var(--sub);padding:12px 24px 12px 0}
+.wl.n{letter-spacing:.15em;padding:36px 0 0}.wl.n2{letter-spacing:.15em;padding:36px 0 4px}
+.wq{font:300 30px/1.15 Roboto,system-ui,sans-serif;margin:16px 0 0}
+#wn{margin-top:36px;width:100%;font:20px Roboto,system-ui,sans-serif;background:none;border:0;border-bottom:2px solid var(--ln);color:var(--tx);padding:8px 0;outline:0;border-radius:0}#wn:focus{border-color:var(--tx)}
+.wh{font-size:13px;color:var(--sub);margin:8px 0 0}
+#wgo{margin-top:32px;height:54px;width:100%;border:0;border-radius:14px;background:var(--bt);color:var(--btt);font:500 16px Roboto,system-ui,sans-serif;cursor:pointer}#wgo:disabled{opacity:.35;cursor:default}
+.wcw{container-type:inline-size;margin-top:20px}
+.wcard{position:relative;aspect-ratio:1012/638;border-radius:4cqw;overflow:hidden;background:linear-gradient(155deg,#1d1b77,#152a6e);box-shadow:0 2px 8px rgba(0,0,0,.3);color:#fff}
+.wcard>*{position:absolute}
+.g1{inset:0;background:rgba(255,255,255,.055);clip-path:polygon(59% 0,100% 0,100% 47%)}
+.g2{inset:0;background:rgba(255,255,255,.04);clip-path:polygon(86% 100%,100% 38%,100% 100%)}
+.pn{left:11.265%;top:9.09%;width:77.47%;height:43.89%;background:#fff;border-radius:2.767cqw}.pn.t{cursor:pointer}
+#wb{left:12.253%;top:13.79%;width:75.49%;height:34.48%}
+.pt{left:13.241%;top:18.81%;width:73.52%;height:10.97%;display:flex;align-items:center;justify-content:center;color:#111;font-weight:500;font-size:3.16cqw;white-space:nowrap;pointer-events:none}
+.ph{left:13.241%;top:30.72%;width:73.52%;height:13.17%;text-align:center;color:#6b6b6b;font-size:2.17cqw;line-height:1.2;pointer-events:none}
+.nm{left:11.265%;top:66.61%;width:66.8%;height:10.34%;display:flex;align-items:center;font-weight:500;white-space:nowrap;overflow:hidden}
+.cd{left:11.561%;top:77.9%;width:66.5%;height:7.52%;display:flex;align-items:center;font-weight:500;font-size:2.767cqw;white-space:nowrap;overflow:hidden}
+.lg{left:79.35%;top:69.44%;width:16.21%;height:25.71%;object-fit:contain}
+.wr{display:flex;border-top:1px solid var(--ln);padding:16px 0}.wr.f{margin-top:28px}
+.wr span:first-child{font-size:11px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--sub);padding:3px 16px 0 0;white-space:nowrap}
+.wr span:last-child{flex:1;text-align:right;font-size:16px;word-break:break-word}
+.wnw{background:#fff;color:#111;border:1px solid var(--ln);border-radius:14px;padding:14px 16px;margin-top:8px}
+.wnw b{display:block;font-size:16px;font-weight:500}.wnw p{margin:0;font-size:15px;white-space:pre-wrap}.wnw small{display:block;font-size:12px;color:#8a8a8a;padding-top:6px}
+.wst{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin-top:12px;scrollbar-width:none}.wst::-webkit-scrollbar{display:none}
+.ad{flex:0 0 100%;scroll-snap-align:start;aspect-ratio:16/9;border-radius:16px;overflow:hidden;border:1px solid var(--ln);background:#0a156e;display:block;position:relative}
+.ad img.pic{width:100%;height:100%;object-fit:cover;display:block}
+.ad img.lo{position:absolute;inset:0;margin:auto;max-width:70%;max-height:70%}
+.wd{display:flex;justify-content:center;gap:8px;margin-top:12px}.wd i{width:8px;height:8px;border-radius:50%;background:var(--sub)}.wd i.on{background:var(--tx)}
+.wsw{margin-top:36px;text-align:center;font-size:13px}.wsw a{color:var(--sub)}
 </style>
 </head>
 <body>
 <div class="site" id="site">
- <header>ABM Retail Corp</header>
+ <header><img src="abm_store_logo.png" alt="ABM Store" width="52" height="52"><span>ABM Retail Corp</span></header>
  <section class="hero" id="home">
   <h1>Your SukiCard, always in your pocket.</h1>
   <p>Show your member card at the counter and keep up with offers and news from ABM Retail Corp, all in one app.</p>
   <a class="btn cta" href="#downloadapk">Download for Android</a>
+  <p class="alt">Can't install the app? <a href="#websukicard">Use the web version</a>.</p>
  </section>
  <ol class="steps" id="homesteps">
   <li>Install the app and open it.</li>
@@ -91,6 +133,7 @@ ol.steps li::before{content:counter(s) ".";font-weight:700;color:var(--brand);ma
    <li>If Android asks, allow installs from your browser. This is a one-time switch.</li>
    <li>Tap Install, then open ABM SukiCard.</li>
   </ol>
+  <p class="alt">Can't install it on your phone? <a href="#websukicard">Open the web version</a> instead. No download needed.</p>
  </section>
  <footer>&copy; ABM Retail Corp</footer>
 </div>
@@ -98,7 +141,7 @@ ol.steps li::before{content:counter(s) ".";font-weight:700;color:var(--brand);ma
 <div id="adminRoot" hidden>
 <div id="login" hidden>
  <form id="lf" class="card">
-  <h2>SukiCard Admin</h2><p class="sub">Enter your admin PIN.</p>
+  <img src="abm_store_logo.png" alt="ABM Store" width="64" height="64"><h2>SukiCard Admin</h2><p class="sub">Enter your admin PIN.</p>
   <label for="pin">Admin PIN</label>
   <input id="pin" type="password" autocomplete="current-password" required>
   <p id="lerr" class="m" style="color:var(--bad)"></p>
@@ -108,7 +151,7 @@ ol.steps li::before{content:counter(s) ".";font-weight:700;color:var(--brand);ma
 
 <div class="app" id="app" hidden>
  <nav>
-  <h1>ABM SukiCard</h1>
+  <h1><img src="abm_store_logo.png" alt="" width="32" height="32"> ABM SukiCard</h1>
   <button data-v="members">Members</button>
   <button data-v="news">Announcements</button>
   <button data-v="ads">Ads</button>
@@ -118,6 +161,8 @@ ol.steps li::before{content:counter(s) ".";font-weight:700;color:var(--brand);ma
  <main id="main"></main>
 </div>
 </div>
+
+<div id="web" hidden><div id="webroot"></div></div>
 
 <dialog id="dlg"></dialog>
 <div id="toast" role="status"></div>
@@ -241,6 +286,105 @@ async function update(){
  $("#uf").onsubmit=async e=>{e.preventDefault();
   try{await api("setUpdate",{versionCode:$("#uc").value,versionName:$("#un").value,url:$("#uu").value,notes:$("#ut").value});toast("Update published")}catch(err){toast(err.message)}}}
 
+/* ---------- Web SukiCard: a copy of the Android card screen ---------- */
+const SK="sukicard",C128=["212222","222122","222221","121223","121322","131222","122213","122312","132212","221213","221312","231212","112232","122132","122231","113222","123122","123221","223211","221132","221231","213212","223112","312131","311222","321122","321221","312212","322112","322211","212123","212321","232121","111323","131123","131321","112313","132113","132311","211313","231113","231311","112133","112331","132131","113123","113321","133121","313121","211331","231131","213113","213311","213131","311123","311321","331121","312113","312311","332111","314111","221411","431111","111224","111422","121124","121421","141122","141221","112214","112412","122114","122411","142112","142211","241211","221114","413111","241112","134111","111242","121142","121241","114212","124112","124211","411212","421112","421211","212141","214121","412121","111143","111341","131141","114113","114311","411113","411311","113141","114131","311141","411131","211412","211214","211232","2331112"];
+const EL=["0001101","0011001","0010011","0111101","0100011","0110001","0101111","0111011","0110111","0001011"];
+const EP=["LLLLLL","LLGLGG","LLGGLG","LLGGGL","LGLLGG","LGGLLG","LGGGLL","LGLGLG","LGLGGL","LGGLGL"];
+const dig=s=>/^\d+$/.test(s),cmp=b=>[...b].map(c=>c==="1"?"0":"1").join("");
+function chk(s){let t=0;for(let i=0;i<12;i++)t+=(+s[i])*(i%2?3:1);return(10-t%10)%10}
+function bars128(s){
+ const n=s.length;if(!n||n>48)return null;
+ for(const c of s){const k=c.charCodeAt(0);if(k<32||k>126)return null}
+ const v=[];
+ if(dig(s)&&n>=4){
+  if(n%2===0){v.push(105);for(let i=0;i<n;i+=2)v.push(+s.slice(i,i+2))}
+  else{v.push(104,s.charCodeAt(0)-32,99);for(let i=1;i<n;i+=2)v.push(+s.slice(i,i+2))}
+ }else{v.push(104);for(const c of s)v.push(c.charCodeAt(0)-32)}
+ let sum=v[0];for(let i=1;i<v.length;i++)sum+=i*v[i];
+ v.push(sum%103,106);
+ let b="";for(const x of v){let bar=1;for(const w of C128[x]){b+=(bar?"1":"0").repeat(+w);bar^=1}}
+ return b}
+function barsEan(s){
+ if(!dig(s))return null;if(s.length===12)s+=chk(s);
+ if(s.length!==13||+s[12]!==chk(s))return null;
+ const p=EP[+s[0]];let b="101";
+ for(let i=1;i<=6;i++){const l=EL[+s[i]];b+=p[i-1]==="L"?l:[...cmp(l)].reverse().join("")}
+ b+="01010";for(let i=7;i<=12;i++)b+=cmp(EL[+s[i]]);return b+"101"}
+const barcode=(f,t)=>!t?null:(f==="ean13"?barsEan(t):bars128(t));
+function drawBars(cv,bits){
+ const r=devicePixelRatio||1,W=cv.clientWidth,H=cv.clientHeight;cv.width=W*r;cv.height=H*r;
+ const x=cv.getContext("2d");x.fillStyle="#111";
+ const total=bits.length+20,pw=W*r;let u=Math.floor(pw/total);if(u<1)u=pw/total;
+ const left=(pw-u*total)/2+10*u;
+ for(let i=0;i<bits.length;){if(bits[i]==="1"){let j=i;while(j<bits.length&&bits[j]==="1")j++;x.fillRect(left+i*u,0,(j-i)*u,H*r);i=j}else i++}}
+
+let S={},adT,busy=false,pause=0;
+const ld=()=>{try{return JSON.parse(localStorage.getItem(SK)||"{}")}catch(e){return{}}};
+const sv=()=>{try{localStorage.setItem(SK,JSON.stringify(S))}catch(e){}};
+async function post(a,d){try{const r=await fetch("/api/sukicard",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:a,...d})});const j=await r.json();return j.ok?j:null}catch(e){return null}}
+
+function webLayout(){
+ const c=$("#wc");if(!c)return;
+ const e=$("#wnm"),u=c.clientWidth/1012;let s=50*u;const min=Math.max(1,26*u);
+ e.style.fontSize=s+"px";while(e.scrollWidth>e.clientWidth&&s>min){s-=1;e.style.fontSize=s+"px"}
+ const b=barcode(S.format,S.code),cv=$("#wb");if(b&&cv)drawBars(cv,b)}
+
+function webRender(){
+ const R=$("#webroot");
+ if(!S.name){
+  R.innerHTML=`<div class="wcol c"><div class="wl">ABM SukiCard</div><h1 class="wq">What’s your name on your physical SukiCard?</h1><input id="wn" placeholder="Full name" autocomplete="name" autocapitalize="words" maxlength="60"><p class="wh">Type it exactly as it’s printed on your card.</p><button id="wgo" disabled>Continue</button></div>`;
+  const i=$("#wn"),b=$("#wgo"),go=()=>{const v=i.value.trim();if(!v)return;S={name:v,id:""};sv();webRender();webSync();webExtras()};
+  i.oninput=()=>{b.disabled=!i.value.trim()};i.onkeydown=e=>{if(e.key==="Enter")go()};b.onclick=go;return}
+ const bits=barcode(S.format,S.code),row=(l,v,f)=>v?`<div class="wr${f?" f":""}"><span>${l}</span><span>${esc(v)}</span></div>`:"";
+ const news=(S.news||[]).slice(0,3).map(n=>`<div class="wnw">${n.title?`<b>${esc(n.title)}</b>`:""}<p>${esc(n.message)}</p>${n.at?`<small>${new Date(n.at).toLocaleDateString(undefined,{dateStyle:"medium"})}</small>`:""}</div>`).join("");
+ const ads=S.ads||[];
+ const slides=ads.map(a=>{const inner=`<img class="lo" src="abm_logo.png" alt="">`,at=`data-id="${esc(a.id)}" data-v="${esc(a.v)}" data-has="${a.hasImage?1:0}"`;
+  return a.link?`<a class="ad" ${at} href="${esc(a.link)}" target="_blank" rel="noopener">${inner}</a>`:`<div class="ad" ${at}>${inner}</div>`}).join("");
+ R.innerHTML=`<div class="wcol"><div class="wl">ABM SukiCard</div>
+ <div class="wcw"><div class="wcard" id="wc"><i class="g1"></i><i class="g2"></i><div class="pn${bits?"":" t"}" id="wpn"></div>
+ ${bits?`<canvas id="wb"></canvas>`:`<div class="pt">Your card is being linked</div><div class="ph" id="wh">Show this screen to our staff.</div>`}
+ <div class="nm" id="wnm">${esc(S.name)}</div><div class="cd">${bits?esc(S.code):""}</div><img class="lg" src="abm_logo.png" alt=""></div></div>
+ ${row("Points",S.points,1)}${row("Member since",S.since)}${row("Note",S.note)}
+ ${news?`<div class="wl n">Offers and news</div>${news}`:""}
+ ${ads.length?`<div class="wl n2">Latest from ABM Store</div><div class="wst" id="wst">${slides}</div>${ads.length>1?`<div class="wd">${ads.map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}</div>`:""}`:""}
+ <p class="wsw"><a href="#" id="wchg">Not your card? Change name</a></p></div>`;
+ if(!bits)$("#wpn").onclick=webSync;
+ $("#wchg").onclick=e=>{e.preventDefault();S={};sv();webRender()};
+ const st=$("#wst");
+ if(st){st.onscroll=()=>{const i=Math.round(st.scrollLeft/(st.clientWidth+12));document.querySelectorAll(".wd i").forEach((d,k)=>d.classList.toggle("on",k===i))};
+  ["touchstart","pointerdown","wheel"].forEach(ev=>st.addEventListener(ev,()=>{pause=Date.now()+6000},{passive:true}))}
+ webLayout();loadPics()}
+
+function loadPics(){document.querySelectorAll(".ad[data-id]").forEach(async a=>{
+ if(a.dataset.has!=="1")return;const id=a.dataset.id,k="skimg:"+id+":"+a.dataset.v;let d;
+ try{d=localStorage.getItem(k)}catch(e){}
+ if(!d){const r=await post("adImage",{id});d=r&&r.image;
+  if(d)try{Object.keys(localStorage).filter(x=>x.startsWith("skimg:"+id+":")).forEach(x=>localStorage.removeItem(x));localStorage.setItem(k,d)}catch(e){}}
+ if(d&&a.isConnected)a.innerHTML=`<img class="pic" alt="" src="data:image/jpeg;base64,${d}">`})}
+
+async function webSync(){
+ if(!S.name||busy)return;busy=true;
+ const r=await post("lookup",{name:S.name,id:S.id||""});busy=false;
+ if(!r||!r.member){const h=$("#wh");if(h)h.textContent="Can’t connect. Tap to try again.";return}
+ const m=r.member,key=()=>JSON.stringify([S.name,S.code,S.format,S.points,S.since,S.note]),old=key();
+ if(m.id)S.id=m.id;if(m.name)S.name=m.name;
+ Object.assign(S,{code:m.code,format:m.format,points:m.points,since:m.since,note:m.note});sv();
+ if(key()!==old)webRender();else{const h=$("#wh");if(h)h.textContent="Show this screen to our staff."}}
+
+async function webExtras(){
+ if(!S.name)return;
+ const [n,a]=await Promise.all([post("news",{since:0}),post("ads",{})]);let ch=false;
+ if(n&&n.items){const v=n.items.slice().reverse();if(JSON.stringify(v)!==JSON.stringify(S.news||[])){S.news=v;ch=true}}
+ if(a&&a.items&&JSON.stringify(a.items)!==JSON.stringify(S.ads||[])){S.ads=a.items;ch=true}
+ if(ch){sv();if(!$("#web").hidden)webRender()}}
+
+function webStart(){S=ld();webRender();webSync();webExtras();clearInterval(adT);
+ adT=setInterval(()=>{const st=$("#wst"),n=(S.ads||[]).length;if(!st||n<2||Date.now()<pause)return;
+  const w=st.clientWidth+12,i=(Math.round(st.scrollLeft/w)+1)%n;st.scrollTo({left:i*w,behavior:"smooth"})},4000)}
+function webStop(){clearInterval(adT)}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&!$("#web").hidden){webSync();webExtras()}});
+addEventListener("resize",()=>{if(!$("#web").hidden)webLayout()});
+
 async function loadApk(){
  const b=$("#apkbtn"),n=$("#apknote");
  try{const u=await api("getUpdate");
@@ -248,9 +392,11 @@ async function loadApk(){
   else{b.hidden=true;n.textContent="The download isn't ready yet. Please check back soon."}
  }catch(e){b.hidden=true;n.textContent="Couldn't load the download. Please try again."}}
 function route(){
- const h=location.hash,adm=h==="#admin",d=h==="#downloadapk";
- $("#adminRoot").hidden=!adm;$("#site").hidden=adm;
+ const h=location.hash,adm=h==="#admin",d=h==="#downloadapk",w=h==="#websukicard";
+ $("#adminRoot").hidden=!adm;$("#site").hidden=adm||w;$("#web").hidden=!w;
+ document.body.classList.toggle("isweb",w);
  document.title=adm?"SukiCard Admin":"ABM SukiCard";
+ if(w){webStart();return}webStop();
  if(adm){
   if(!pin){$("#app").hidden=true;$("#login").hidden=false}
   else if($("#app").hidden)api("list").then(show).catch(()=>{$("#login").hidden=false});
